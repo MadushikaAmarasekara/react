@@ -2,16 +2,46 @@ import React, { Component } from 'react';
 import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
 
 class DishDetail extends Component{
-    renderComments(comments){
-        if(comments!=null){
-            let dt = { year: "numeric", month: "short", day: "numeric" };
+    renderDish(dish){
+        if(dish!=null){
+            return(
+                <div className="col-12 col-md-5 m-1">
+                    <Card>
+                        <CardImg width="100%" src={dish.image} alt={dish.name}/>
+                        <CardBody>
+                            <CardTitle>{dish.name}</CardTitle>
+                            <CardText>{dish.description}</CardText>
+                        </CardBody>
+                    </Card>
+                </div>
+            );     
+        }
+        else{
+            return(
+                <div></div>
+            );
+        }
+    }
 
-            return comments.map((comment) => ( 
-                <ul className="list-unstyled" key={comment.id}>
-                    <li>{comment.comment}</li>
-                    <li className="mt-2">-- {comment.author} , {new Date(comment.date).toLocaleDateString("en-US", dt)}</li>
-                </ul>
-            ));
+    renderComments(dish){
+        if(dish!=null){
+            // let dt = { year: "numeric", month: "short", day: "numeric" };
+
+            const coms = dish.comments.map((comment) => { 
+                return(
+                    <ul className="list-unstyled" key={comment.id}>
+                        <li>{comment.comment}</li>
+                        <li className="mt-2">-- {comment.author} , {new Intl.DateTimeFormat('en-US', {year: "numeric", month: "short", day: "2-digit"}).format(new Date(Date.parse(comment.date)))}</li> {/*{new Date(comment.date).toLocaleDateString("en-US", dt)} */}
+                    </ul>
+                );
+            });
+
+            return(
+                <div className="col-12 col-md-5 m-1">
+                    <h4>Comments</h4>
+                    {coms}
+                </div>
+            );
         }
         else{
             return(
@@ -22,20 +52,10 @@ class DishDetail extends Component{
     
     render(){
         return(
-            <div className="row">
-                <div className="col-12 col-md-5 m-1">
-                    <Card>
-                        <CardImg width="100%" src={this.props.selectedDish.image} alt={this.props.selectedDish.name}/>
-                        <CardBody>
-                            <CardTitle>{this.props.selectedDish.name}</CardTitle>
-                            <CardText>{this.props.selectedDish.description}</CardText>
-                        </CardBody>
-                    </Card>
-                </div>
-
-                <div className="col-12 col-md-5 m-1">
-                    <h4>Comments</h4>
-                    {this.renderComments(this.props.selectedDish.comments)}
+            <div class="container">
+                <div className="row">
+                    {this.renderDish(this.props.dish)}
+                    {this.renderComments(this.props.dish)}
                 </div>
             </div>
         ); 
