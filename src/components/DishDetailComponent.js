@@ -16,11 +16,11 @@ function RenderDish({ dish }){
     );     
 }
 
-function RenderComments({ dish }){
-    if(dish!=null){
+function RenderComments({ comments }){
+    if(comments!=null){
         // let dt = { year: "numeric", month: "short", day: "numeric" };
 
-        const coms = dish.comments.map((comment) => { 
+        const coms = comments.map((comment) => { 
             return(
                 <ul className="list-unstyled">
                     <li key={comment.id}>{comment.comment}</li>
@@ -61,7 +61,7 @@ const DishDetail = (props) => {
 
                 <div className="row">
                     <RenderDish dish={props.dish}/>
-                    <RenderComments dish={props}/>
+                    <RenderComments comments={props.comments}/>
                 </div>
             </div>
         ); 
